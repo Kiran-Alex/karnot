@@ -70,7 +70,7 @@ export default function Tx() {
   const gas_consumed = () => {
     if (getTxReceipt.isSuccess && getTxDataByHash.isFetched) {
       const a = WeiToEtherConverter(HextoDecimalConverter(getTxReceipt.data?.data.result.actual_fee.amount))
-      const b = WeiToEtherConverter(HextoDecimalConverter(getTxDataByHash.data?.l1_gas_price as string))
+      const b = WeiToEtherConverter(HextoDecimalConverter(getTxDataByHash.data!.l1_gas_price as string))
 
       if (a !== undefined && b !== undefined) {
         return a / b
@@ -188,7 +188,7 @@ export default function Tx() {
           <TxDetailsRow label="Actual fee"><p className="text-[14px]">{WeiToEtherConverter(HextoDecimalConverter(getTxReceipt.data?.data.result.actual_fee.amount))} ETH ($0.004176)
             {/* \ to: StarkWare: Sequencer */}
           </p></TxDetailsRow>
-          <TxDetailsRow label="max fee"><p className="text-[14px]">{getTxDataByHash.isFetched && WeiToEtherConverter(HextoDecimalConverter(getTxDataByHash.data?.max_fee as string))} ETH</p></TxDetailsRow>
+          <TxDetailsRow label="max fee"><p className="text-[14px]">{getTxDataByHash.isFetched && WeiToEtherConverter(HextoDecimalConverter(getTxReceipt.data?.data?.result?.actual_fee?.amount))} ETH</p></TxDetailsRow>
           <TxDetailsRow label="gas consumed"><p className="text-[14px]">{Math.floor(gas_consumed() ?? 0)}</p></TxDetailsRow>
           <TxDetailsRow label="sender address"><p className="text-[14px]">{getTxDataByHash.isFetched && getTxDataByHash.data?.sender_address}</p></TxDetailsRow>
         </div>
@@ -199,9 +199,9 @@ export default function Tx() {
               <p className="text-[14px]">{getTxReceipt.data?.data.result.block_number}</p>
             </TxDetailsRow>
             <TxDetailsRow label="unix timestamp"><p className="text-[14px]">{BlockData?.result.timestamp}</p></TxDetailsRow>
-            <TxDetailsRow label="nonce"><p className="text-[14px]">{HextoDecimalConverter(getTxDataByHash.data?.nonce as string)}</p></TxDetailsRow>
+            <TxDetailsRow label="nonce"><p className="text-[14px]">{HextoDecimalConverter(getTxDataByHash.data!.nonce as string)}</p></TxDetailsRow>
             <TxDetailsRow label="position"><p className="text-[14px]">{getTxDataByHash.data?.id}</p></TxDetailsRow>
-            <TxDetailsRow label="version"><p className="text-[14px]">{HextoDecimalConverter(getTxDataByHash.data?.version as string)}</p></TxDetailsRow>
+            <TxDetailsRow label="version"><p className="text-[14px]">{HextoDecimalConverter(getTxDataByHash.data!.version as string)}</p></TxDetailsRow>
 
 
             {/* Execution Resources*/}
