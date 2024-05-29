@@ -69,13 +69,14 @@ export default function Tx() {
 
   const gas_consumed = () => {
     if (getTxReceipt.isSuccess && getTxDataByHash.isFetched) {
-      if(getTxDataByHash.data !== undefined && getTxDataByHash.data !== null){
-      const a = WeiToEtherConverter(HextoDecimalConverter(getTxReceipt.data?.data.result.actual_fee.amount))
-      const b = WeiToEtherConverter(HextoDecimalConverter(getTxDataByHash.data.l1_gas_price as string))
+      if (getTxDataByHash.data !== undefined && getTxDataByHash.data !== null) {
+        const a = WeiToEtherConverter(HextoDecimalConverter(getTxReceipt.data?.data.result.actual_fee.amount))
+        const b = getTxDataByHash.data.l1_gas_price !== undefined ? WeiToEtherConverter(HextoDecimalConverter(getTxDataByHash.data.l1_gas_price as string)) : undefined
 
-      if (a !== undefined && b !== undefined) {
-        return a / b
-      }}
+        if (a !== undefined && b !== undefined) {
+          return a / b
+        }
+      }
     }
   }
 
@@ -199,10 +200,10 @@ export default function Tx() {
             <TxDetailsRow label="BLOCK NUMBER">
               <p className="text-[14px]">{getTxReceipt.data?.data.result.block_number}</p>
             </TxDetailsRow>
-            <TxDetailsRow label="unix timestamp"><p className="text-[14px]">{BlockData?.result?.timestamp ?? ''}</p></TxDetailsRow>
-            <TxDetailsRow label="nonce"><p className="text-[14px]">{HextoDecimalConverter(getTxDataByHash.data!.nonce as string)}</p></TxDetailsRow>
+            <TxDetailsRow label="unix timestamp"><p className="text-[14px]">{BlockData?.result?.timestamp}</p></TxDetailsRow>
+            <TxDetailsRow label="nonce"><p className="text-[14px]">{HextoDecimalConverter(getTxDataByHash.data?.nonce as string)}</p></TxDetailsRow>
             <TxDetailsRow label="position"><p className="text-[14px]">{getTxDataByHash?.data?.id}</p></TxDetailsRow>
-            <TxDetailsRow label="version"><p className="text-[14px]">{HextoDecimalConverter(getTxDataByHash.data!.version as string)}</p></TxDetailsRow>
+            <TxDetailsRow label="version"><p className="text-[14px]">{getTxDataByHash!==null && getTxDataByHash!==undefined && HextoDecimalConverter(getTxDataByHash.data?.version as string)}</p></TxDetailsRow>
 
 
             {/* Execution Resources*/}
